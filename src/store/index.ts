@@ -1,9 +1,9 @@
 import { applyMiddleware, legacy_createStore as createStore } from "redux";//这边有改动 原 createStore
 import createRootReducer from "./reducers";
-import {createBrowserHistory} from "history"
+import {createHashHistory} from "history"
 import { routerMiddleware } from "connected-react-router";
 
-export const history = createBrowserHistory();
+export const history = createHashHistory();
 
 const store = createStore(
     createRootReducer(history),
