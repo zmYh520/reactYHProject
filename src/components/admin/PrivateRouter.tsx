@@ -1,0 +1,25 @@
+import React, { FC } from 'react'
+import { Redirect, Route, RouteProps } from 'react-router-dom'
+import { isAuth } from '../../helpers/auth'
+import { Jwt } from '../../store/models/auth'
+
+
+interface PrivateRouterProps extends RouteProps {
+    component:React.ComponentType<any>
+}
+const PrivateRouter:FC<PrivateRouterProps> = ({component:Component,...rest}) => {
+  return (
+   <Route {...rest} render={
+    props=>{//这个props是原本你要传递给组件的props
+        const auth = isAuth();
+        if(auth){
+            const {user:{role}} = auth as Jwt;
+            if(role === 0 ) return <Component {...rest} />
+        }
+        return <Redirect to='/signin'/>
+    }
+   }/>
+  )
+}
+
+export default PrivateRouter
